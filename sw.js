@@ -2,9 +2,9 @@
 // Bei späteren Änderungen an App-Dateien die Versionsnummer erhöhen.
 // Der Pfad gehört zum Namen, damit andere Apps auf derselben Domain erhalten bleiben.
 const CACHE_PREFIX='akkordbruecke-'+encodeURIComponent(self.registration.scope)+'-';
-const CACHE=CACHE_PREFIX+'v2.0.0';
+const CACHE=CACHE_PREFIX+'v2.1.0';
 // Alle Dateien liegen im selben Ordner wie index.html und dieser Service Worker.
-const FILES=['./','./index.html','./style.css','./music.js','./songs.js','./audio.js','./install.js','./app.js','./manifest.json','./icon.svg','./icon-192.png','./icon-512.png','./icon-maskable-512.png'];
+const FILES=['./','./index.html','./style.css','./music.js','./explanations.js','./songs.js','./audio.js','./install.js','./app.js','./manifest.json','./icon.svg','./icon-192.png','./icon-512.png','./icon-maskable-512.png'];
 const absolute=p=>new URL(p,self.registration.scope).href;
 self.addEventListener('install',event=>event.waitUntil((async()=>{
   const responses=await Promise.all(FILES.map(async file=>{

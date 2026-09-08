@@ -11,6 +11,7 @@
   <link rel="manifest" href="./manifest.json">
   <link rel="stylesheet" href="./style.css">
   <script src="./music.js" defer></script>
+  <script src="./explanations.js" defer></script>
   <script src="./songs.js" defer></script>
   <script src="./audio.js" defer></script>
   <script src="./install.js" defer></script>
@@ -25,7 +26,7 @@
     <div id="install-banner" class="install-banner" hidden><button id="install-app" type="button" hidden>App installieren</button></div>
     <main id="main">
       <section class="selection" aria-label="Akkord auswählen">
-        <div class="chord-heading"><span class="eyebrow">DEIN AKKORD</span><h1 id="chord-title">C-Dur</h1></div>
+        <div class="chord-heading"><h1 id="chord-title">C-Dur</h1><button id="open-explanation" class="explanation-button" type="button" aria-haspopup="dialog" aria-controls="detail-dialog">Erklärung</button></div>
         <div class="pickers">
           <label>Grundton<select id="root" aria-label="Grundton"></select></label>
           <label class="type-picker">Akkordtyp<select id="type" aria-label="Akkordtyp"></select></label>
@@ -57,7 +58,7 @@
       <p class="offline-status" id="offline-status" aria-live="polite">Offline-Nutzung wird vorbereitet …</p>
       <noscript>Bitte aktiviere JavaScript, damit die Akkordauswahl und Instrumente funktionieren.</noscript>
     </main>
-    <footer class="app-footer">GuitarPianoDicc · Version 2</footer>
+    <footer class="app-footer">GuitarPianoDicc · Version 2.1</footer>
   </div>
   <dialog id="detail-dialog" aria-labelledby="dialog-title"><div class="dialog-header"><h2 id="dialog-title"></h2><button id="close-dialog" aria-label="Schließen">×</button></div><div id="dialog-content"></div></dialog>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
