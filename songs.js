@@ -1,0 +1,10 @@
+// Only chord identities verified in the linked arrangement, checked 2026-09-08.
+// No lyrics, tablature, artwork or recordings are copied into the app.
+window.AkkordSongs=[
+  {title:'Stand By Me',artist:'Oasis',chords:['7:major','11:7','0:major','2:major','4:minor','9:7','9:minor','5:major','5:maj7'],url:'https://www.andyguitar.co.uk/videos/oasis-stand-by-me-guitar-lesson-chords-solos',source:'Andy Guitar',linkLabel:'Akkorde & Gitarrenlektion',note:'Lektion mit offenen Akkorden und weiteren Varianten. Internationales B7 entspricht hier H7; Fmaj7 wird als Alternative zu F genannt.'},
+  {title:'Sweet Home Alabama',artist:'Lynyrd Skynyrd',chords:['7:major','0:add9','2:major'],url:'https://www.andyguitar.co.uk/videos/lesson-3-sweet-home-alabama-by-lynyrd-skynyrd',source:'Andy Guitar',linkLabel:'Akkorde & Gitarrenlektion',note:'Die verlinkte akustische Begleitfassung verwendet G, Cadd9 und D.'},
+  {title:'Three Little Birds',artist:'Bob Marley',chords:['9:major','2:major','4:major'],url:'https://www.andyguitar.co.uk/videos/three-little-birds-bob-marley',source:'Andy Guitar',linkLabel:'Akkorde & Gitarrenlektion',note:'Begleitfassung mit A, D und E in Standardstimmung.'},
+  {title:'Stand By Me',artist:'Ben E. King',chords:['9:major','6:minor','2:major','4:7'],url:'https://guitar-gaga.com/chords/stand-by-me-chords/',source:'GuitarGaGa',linkLabel:'Akkordblatt öffnen',note:'Diese Fassung verwendet A, Fism, D und E7. Fism heißt auf der verlinkten Seite F#m.'},
+  {title:"Ain’t No Sunshine",artist:'Bill Withers',chords:['9:minor','4:minor','7:major','2:minor'],url:'https://guitar-gaga.com/chords/aint-no-sunshine-chords/',source:'GuitarGaGa',linkLabel:'Akkordblatt öffnen',note:'Die verlinkte einfache Begleitfassung verwendet Am, Em, G und Dm.'},
+  {title:'Save Your Tears',artist:'The Weeknd',chords:['0:major','9:minor','4:minor','7:major','2:minor','5:major'],url:'https://guitar-gaga.com/chords/save-your-tears-chords/',source:'GuitarGaGa',linkLabel:'Akkordblatt öffnen',note:'Begleitfassung mit C, Am, Em und G; zusätzlich Dm und F in weiteren Abschnitten.'}
+];

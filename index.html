@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#185f61">
+  <meta name="description" content="Akkorde von der Gitarre aufs Klavier übertragen. Griffvarianten, Umkehrungen für die linke Hand, Klang und Favoriten.">
+  <title>Akkordbrücke · Gitarre & Klavier</title>
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./icon-192.png">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="stylesheet" href="./style.css">
+  <script src="./music.js" defer></script>
+  <script src="./songs.js" defer></script>
+  <script src="./audio.js" defer></script>
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell" data-akkordbruecke="v1">
+    <header class="app-header">
+      <span class="brand"><span class="brand-mark" aria-hidden="true">a<span>♭</span></span>Akkordbrücke</span>
+      <span class="header-note">Gitarre & Klavier</span>
+    </header>
+    <main id="main">
+      <section class="selection" aria-label="Akkord auswählen">
+        <div class="chord-heading"><span class="eyebrow">DEIN AKKORD</span><h1 id="chord-title">C-Dur</h1></div>
+        <div class="pickers">
+          <label>Grundton<select id="root" aria-label="Grundton"></select></label>
+          <label class="type-picker">Akkordtyp<select id="type" aria-label="Akkordtyp"></select></label>
+          <button id="favorite-toggle" class="favorite-toggle" aria-label="Aktuelle Kombination als Favorit speichern" aria-pressed="false" title="Als Favorit speichern">☆</button>
+        </div>
+      </section>
+      <div id="tone-legend" class="tone-legend" aria-label="Akkordtöne und ihre Farben"></div>
+      <div class="instruments">
+        <section class="instrument" aria-labelledby="guitar-title">
+          <div class="instrument-header"><div><h2 id="guitar-title">Gitarre</h2><p id="guitar-label">Standardgriff</p></div><button class="play-button" id="play-guitar"><span aria-hidden="true">▶</span> Anhören</button></div>
+          <div id="guitar-diagram" class="guitar-diagram"></div>
+          <div class="variant-nav"><button id="guitar-prev" aria-label="Vorheriger Gitarrengriff">‹</button><div><strong id="guitar-position">Griff 1</strong><span id="guitar-count"></span></div><button id="guitar-next" aria-label="Nächster Gitarrengriff">›</button></div>
+          <p class="instrument-footnote">○ Leere Saite <span>× Nicht spielen</span></p>
+        </section>
+        <section class="instrument piano-panel" aria-labelledby="piano-title">
+          <div class="instrument-header"><div><h2 id="piano-title">Klavier</h2><p>Linke Hand</p></div><button class="play-button" id="play-piano"><span aria-hidden="true">▶</span> Anhören</button></div>
+          <div class="piano-stage"><div id="piano-diagram" class="piano-diagram"></div><div id="piano-notes" class="piano-note-sequence" aria-label="Töne von tief nach hoch"></div></div>
+          <div class="variant-nav"><button id="piano-prev" aria-label="Vorherige Klavierumkehrung">‹</button><div><strong id="piano-position">Grundstellung</strong><span id="piano-count"></span></div><button id="piano-next" aria-label="Nächste Klavierumkehrung">›</button></div>
+          <p class="instrument-footnote">Töne von tief nach hoch <span>C4 = mittleres C</span></p>
+        </section>
+      </div>
+      <nav class="actions" aria-label="Weitere Funktionen">
+        <button id="open-favorites"><span aria-hidden="true">☆</span> Favoriten <span id="favorites-count" class="count">0</span></button>
+        <button id="open-examples"><span aria-hidden="true">♫</span> Beispiele</button>
+        <button id="open-options"><span aria-hidden="true">☷</span> Optionen</button>
+      </nav>
+      <p class="save-warning" id="storage-warning" hidden>Favoriten können hier nicht dauerhaft gespeichert werden. Öffne die App im normalen Browsermodus.</p>
+      <p class="offline-status" id="offline-status" aria-live="polite">Offline-Nutzung wird vorbereitet …</p>
+      <noscript>Bitte aktiviere JavaScript, damit die Akkordauswahl und Instrumente funktionieren.</noscript>
+    </main>
+    <footer class="app-footer">Akkordbrücke · Version 1</footer>
+  </div>
+  <dialog id="detail-dialog" aria-labelledby="dialog-title"><div class="dialog-header"><h2 id="dialog-title"></h2><button id="close-dialog" aria-label="Schließen">×</button></div><div id="dialog-content"></div></dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
