@@ -13,7 +13,23 @@
     {id:'m7',name:'m7 · Mollsept',symbol:'m7',intervals:[0,3,7,10],degrees:[1,3,5,7]},
     {id:'sus2',name:'sus2',symbol:'sus2',intervals:[0,2,7],degrees:[1,2,5]},
     {id:'sus4',name:'sus4',symbol:'sus4',intervals:[0,5,7],degrees:[1,4,5]},
-    {id:'add9',name:'add9',symbol:'add9',intervals:[0,4,7,14],degrees:[1,3,5,9]}
+    {id:'add9',name:'add9',symbol:'add9',intervals:[0,4,7,14],degrees:[1,3,5,9]},
+    {id:'6',name:'6 · Dursexte',symbol:'6',intervals:[0,4,7,9],degrees:[1,3,5,6],jazz:true},
+    {id:'m6',name:'m6 · Mollsexte',symbol:'m6',intervals:[0,3,7,9],degrees:[1,3,5,6],jazz:true},
+    {id:'69',name:'6/9',symbol:'6/9',intervals:[0,4,7,9,14],degrees:[1,3,5,6,9],voicing:[0,4,9,14],jazz:true},
+    {id:'9',name:'9 · Dominantnone',symbol:'9',intervals:[0,4,7,10,14],degrees:[1,3,5,7,9],voicing:[0,4,10,14],jazz:true},
+    {id:'maj9',name:'maj9',symbol:'maj9',intervals:[0,4,7,11,14],degrees:[1,3,5,7,9],voicing:[0,4,11,14],jazz:true},
+    {id:'m9',name:'m9',symbol:'m9',intervals:[0,3,7,10,14],degrees:[1,3,5,7,9],voicing:[0,3,10,14],jazz:true},
+    {id:'m11',name:'m11',symbol:'m11',intervals:[0,3,7,10,14,17],degrees:[1,3,5,7,9,11],voicing:[0,3,10,17],jazz:true},
+    {id:'13',name:'13 · Dominanttredezime',symbol:'13',intervals:[0,4,7,10,14,17,21],degrees:[1,3,5,7,9,11,13],voicing:[0,4,10,21],jazz:true},
+    {id:'7b9',name:'7♭9',symbol:'7♭9',intervals:[0,4,7,10,13],degrees:[1,3,5,7,9],voicing:[0,4,10,13],jazz:true},
+    {id:'7#9',name:'7♯9 · Hendrix',symbol:'7♯9',intervals:[0,4,7,10,15],degrees:[1,3,5,7,9],voicing:[0,4,10,15],jazz:true},
+    {id:'7#5',name:'7♯5',symbol:'7♯5',intervals:[0,4,8,10],degrees:[1,3,5,7],jazz:true},
+    {id:'m7b5',name:'m7♭5 · Halbvermindert',symbol:'m7♭5',intervals:[0,3,6,10],degrees:[1,3,5,7],jazz:true},
+    {id:'dim7',name:'dim7 · Vermindert',symbol:'dim7',intervals:[0,3,6,9],degrees:[1,3,5,7],jazz:true},
+    {id:'aug',name:'aug · Übermäßig',symbol:'aug',intervals:[0,4,8],degrees:[1,3,5],jazz:true},
+    {id:'mMaj7',name:'m(maj7)',symbol:'m(maj7)',intervals:[0,3,7,11],degrees:[1,3,5,7],jazz:true},
+    {id:'7sus4',name:'7sus4',symbol:'7sus4',intervals:[0,5,7,10],degrees:[1,4,5,7],jazz:true}
   ];
   const COLORS=['#b85424','#794ca5','#947000','#ae3672','#245fb1','#168084','#5655b7','#217a57','#8b426a','#a33e34','#526e28','#3b6691'];
   const TUNING=[40,45,50,55,59,64];
@@ -37,11 +53,14 @@
       let delta=mod(pc-naturals[letter]);if(delta>6)delta-=12;
       return {pc,name:spell(pc,letter),degree:type.degrees[i],color:COLORS[pc],octaveShift:(pc-naturals[letter]-delta)/12};
     });
-    return {root,type,tones,symbol:r.name+type.symbol,title:r.name+(typeId==='major'?'-Dur':typeId==='minor'?'-Moll':type.symbol)};
+    const played=(type.voicing||type.intervals).map(i=>mod(root+i));
+    const voicingTones=tones.filter(t=>played.includes(t.pc));
+    const omitted=tones.filter(t=>!played.includes(t.pc));
+    return {root,type,tones,voicingTones,omitted,symbol:r.name+type.symbol,title:r.name+(typeId==='major'?'-Dur':typeId==='minor'?'-Moll':type.symbol)};
   }
   function piano(root,typeId,inversion=0) {
     const item=chord(root,typeId);
-    const intervals=item.type.intervals.map(mod);
+    const intervals=(item.type.voicing||item.type.intervals).map(mod);
     const bass=intervals[inversion%intervals.length];
     const notes=intervals.map(i=>48+root+bass+mod(i-bass)).sort((a,b)=>a-b);
     while(notes[0]>57) for(let i=0;i<notes.length;i++) notes[i]-=12;
@@ -65,7 +84,7 @@
   function validFrets(frets,item) {
     if(frets.length!==6 || frets.some(f=>f!==null&&(!Number.isInteger(f)||f<0||f>16))) return false;
     const actual=new Set(guitarNotes(frets).map(mod));
-    return actual.size===item.tones.length&&item.tones.every(t=>actual.has(t.pc));
+    return actual.size===item.voicingTones.length&&item.voicingTones.every(t=>actual.has(t.pc));
   }
   function fingerCount(frets) {
     // One finger may bar strings only if no sounding lower fret lies between.
@@ -103,7 +122,27 @@
       r=mod(root-9);if(r<3)r+=12;
       add([null,r,r-1,r-3,r,null]);
     }
+    if(item.type.jazz){
+      // Enumerate small, physically bounded grips; no invented chord dictionary entries.
+      const pcs=item.voicingTones.map(t=>t.pc);
+      const groups=pcs.length===3?[[1,2,3],[2,3,4],[3,4,5]]:[[0,2,3,4],[1,2,3,4],[2,3,4,5],[0,2,3,5]];
+      for(const group of groups){
+        const candidates=group.map(string=>Array.from({length:16},(_,f)=>f).filter(f=>pcs.includes(mod(TUNING[string]+f))));
+        function walk(i,frets,notes){
+          if(i===group.length){add(frets);return;}
+          for(const f of candidates[i]){
+            const pc=mod(TUNING[group[i]]+f);if(notes.includes(pc))continue;
+            const pressed=frets.filter(v=>v>0).concat(f>0?[f]:[]);
+            if(pressed.length&&Math.max(...pressed)-Math.min(...pressed)>3)continue;
+            const next=frets.slice();next[group[i]]=f;walk(i+1,next,notes.concat(pc));
+          }
+        }
+        walk(0,Array(6).fill(null),[]);
+      }
+      shapes.forEach(s=>{s.score+=s.bass===root?-12:5;});
+    }
     shapes.sort((a,b)=>a.score-b.score);
+    if(item.type.jazz)shapes.splice(6);
     shapes.forEach((s,i)=>{
       s.label=i===0?'Standardgriff':s.frets.some(f=>f===0)?'Offene Variante':s.frets.filter(f=>f!==null).length===4?'Kompakter Griff':'Geschlossener Griff';
       if(s.bass!==root) s.label+=' · '+item.tones.find(t=>t.pc===s.bass).name+' im Bass';
@@ -111,7 +150,11 @@
     shapeCache.set(key,shapes);
     return shapes;
   }
-  function inversionName(n,typeId){return n===0?'Grundstellung':typeId==='add9'&&n===3?'None im Bass':n+'. Umkehrung';}
+  function inversionName(n,typeId){
+    const type=TYPES.find(t=>t.id===typeId);
+    if(type?.jazz){const tone=chord(0,typeId).voicingTones[n];return ({1:'Grundton',3:'Terz',4:'Quarte',5:'Quinte',6:'Sexte',7:'Septime',9:'None',11:'Undezime',13:'Tredezime'}[tone.degree]||'Akkordton')+' im Bass';}
+    return n===0?'Grundstellung':typeId==='add9'&&n===3?'None im Bass':n+'. Umkehrung';
+  }
   function isWhite(n){return ![1,3,6,8,10].includes(mod(n));}
   function keyboardRange(notes) {
     let lo=Math.min(...notes)-1,hi=Math.max(...notes)+1;

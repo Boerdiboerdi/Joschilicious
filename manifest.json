@@ -1,13 +1,14 @@
 {
   "id": "./",
-  "name": "Akkordbrücke",
-  "short_name": "Akkordbrücke",
+  "name": "GuitarPianoDicc",
+  "short_name": "GuitarPianoDicc",
   "description": "Gitarrengriffe und Klavierumkehrungen für die linke Hand vergleichen.",
   "lang": "de",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "prefer_related_applications": false,
+  "related_applications": [{"platform":"webapp","url":"./manifest.json"}],
   "background_color": "#f4f7f5",
   "theme_color": "#185f61",
   "icons": [
